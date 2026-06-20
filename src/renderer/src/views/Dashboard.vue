@@ -252,19 +252,29 @@ async function refresh() {
     ])
 }
 
-function startAutoRefresh() {
+function startAutoRefresh(intervalSecs) {
+    const ms = (intervalSecs || 60) * 1000
     refreshTimer = setInterval(() => {
         fetchDashboard()
         fetchCacheData()
-    }, 60_000)
+    }, ms)
 }
 
 onMounted(async () => {
+    // 加载配置以获取已保存的刷新间隔
+    let intervalSecs = 60
+    try {
+        const config = await window.api.loadAppConfig()
+        intervalSecs = config.refresh_interval_secs || 60
+    } catch (err) {
+        console.error('Failed to load config for refresh interval:', err)
+    }
+
     await Promise.all([
         fetchDashboard(),
         fetchCacheData()
     ])
-    startAutoRefresh()
+    startAutoRefresh(intervalSecs)
 
     window.api.onTrayRefresh(() => {
         refresh()
