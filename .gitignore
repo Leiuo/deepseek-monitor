@@ -1,0 +1,19 @@
+node_modules
+dist
+out
+
+# 编辑器 / IDE
+.vscode/
+
+# 代码索引缓存
+.codegraph/
+.reasonix/
+
+# macOS
+.DS_Store
+
+# 构建缓存
+*.log*
+*.pdb
+.eslintcache
+
