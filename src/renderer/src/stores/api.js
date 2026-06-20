@@ -25,6 +25,10 @@ const state = reactive({
     apiKeyConfigured: false
 })
 
+// ── 通知去重标记 ──
+let _notifiedLowBalance = false
+let _lastErrorBody = ''
+
 // ── Actions ──
 
 async function fetchDashboard() {
@@ -58,9 +62,39 @@ async function fetchDashboard() {
         state.modelBreakdown = data.model_breakdown || []
 
         state.lastUpdated = new Date()
+
+        // ── 低余额通知 ──
+        if (config.notifications_enabled !== false) {
+            const balanceNum = parseFloat(data.balance)
+            const threshold = config.low_balance_threshold ?? 10.0
+            if (!isNaN(balanceNum) && balanceNum < threshold) {
+                if (!_notifiedLowBalance) {
+                    _notifiedLowBalance = true
+                    window.api.showNotification({
+                        title: '余额不足提醒',
+                        body: `当前余额 ¥${balanceNum.toFixed(2)} 已低于告警阈值 ¥${threshold.toFixed(2)}`
+                    }).catch(() => {})
+                }
+            } else if (balanceNum >= threshold) {
+                _notifiedLowBalance = false  // 恢复后重置标记
+            }
+        }
     } catch (err) {
         state.error = typeof err === 'string' ? err : '获取数据失败'
         console.error('Dashboard fetch error:', err)
+
+        // ── 错误通知 ──
+        const config = await window.api.loadAppConfig().catch(() => ({}))
+        if (config.notifications_enabled !== false && state.apiKeyConfigured) {
+            const errorBody = typeof err === 'string' ? err : '获取数据失败，请检查网络和配置'
+            if (errorBody !== _lastErrorBody) {
+                _lastErrorBody = errorBody
+                window.api.showNotification({
+                    title: '数据获取失败',
+                    body: errorBody
+                }).catch(() => {})
+            }
+        }
     } finally {
         state.loading = false
     }

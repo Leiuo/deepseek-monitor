@@ -1,4 +1,4 @@
-import { app, shell, BrowserWindow, ipcMain, Tray, Menu, nativeImage } from 'electron'
+import { app, shell, BrowserWindow, ipcMain, Tray, Menu, nativeImage, Notification } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
@@ -884,6 +884,20 @@ function setupIpcHandlers() {
             throw new Error('请先配置 API Key')
         }
         return diagnoseAPI(apiKey.trim(), sessionToken || '')
+    })
+
+    // 系统通知
+    ipcMain.handle('show-notification', (_event, { title, body }) => {
+        const win = BrowserWindow.getAllWindows()[0]
+        const notification = new Notification({
+            title: title || 'DeepSeek Monitor',
+            body: body || '',
+            icon: join(__dirname, '../../resources/icon.png')
+        })
+        notification.on('click', () => {
+            if (win) { win.show(); win.focus() }
+        })
+        notification.show()
     })
 
     // 托盘事件转发到渲染进程

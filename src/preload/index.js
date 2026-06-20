@@ -43,7 +43,10 @@ const api = {
   },
   onTraySettings: (callback) => {
     ipcRenderer.on('tray-settings', () => callback())
-  }
+  },
+
+  // 系统通知
+  showNotification: (options) => ipcRenderer.invoke('show-notification', options)
 }
 
 if (process.contextIsolated) {
