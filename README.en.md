@@ -159,9 +159,9 @@ The following features have their UI and settings storage ready, but the backend
 
 | Feature | Description |
 |---------|-------------|
-| **Balance Alert** | Alert threshold is saved to config, but Windows system notification is not yet wired up |
-| **Auto Refresh Interval** | Refresh interval can be adjusted in settings (30s–10min), but the timer is currently hardcoded to 60 seconds |
-| **Auto-start on Boot** | Auto-start toggle is saved, but has not been registered with Windows login items yet |
+| **Balance Alert** | Alert threshold is saved to config, but Windows system notification is not yet wired up **(Fixed)** |
+| **Auto Refresh Interval** | Refresh interval can be adjusted in settings (30s–10min), but the timer is currently hardcoded to 60 seconds **(Fixed)** |
+| **Auto-start on Boot** | Auto-start toggle is saved, but has not been registered with Windows login items yet **(Fixed)** |
 
 ## Contributing
 
