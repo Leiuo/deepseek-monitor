@@ -843,6 +843,7 @@ function setupIpcHandlers() {
 
     ipcMain.handle('save-config', (_event, config) => {
         saveConfig(config)
+        app.setLoginItemSettings({ openAtLogin: !!config.auto_start })
     })
 
     // 验证 API Key
@@ -959,6 +960,10 @@ app.whenReady().then(() => {
 
     // 设置应用用户模型ID
     electronApp.setAppUserModelId('com.deepseek.monitor')
+
+    // 应用开机自启配置
+    const initialConfig = loadConfig()
+    app.setLoginItemSettings({ openAtLogin: !!initialConfig.auto_start })
 
     // 开发快捷键
     app.on('browser-window-created', (_, window) => {
