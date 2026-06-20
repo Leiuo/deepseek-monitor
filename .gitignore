@@ -17,3 +17,5 @@ out
 *.pdb
 .eslintcache
 
+# 发行版说明文档
+release-documents
