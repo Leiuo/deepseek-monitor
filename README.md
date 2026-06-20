@@ -1,6 +1,6 @@
 # DeepSeek Monitor
 
-[English](README.en.md) | [🇨🇳 中文](README.md)
+[English](README.en.md) | [中文](README.md)
 
 DeepSeek API 用量及余额监测 Windows 桌面小工具，支持折叠到系统托盘。  
 基于 Electron + Vue 3 构建，通过 API Key 查询余额，通过 Session Token（可选）获取缓存命中率、模型用量明细等详细数据。
