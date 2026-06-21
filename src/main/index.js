@@ -841,6 +841,8 @@ function createWindow() {
     } else {
         mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
     }
+
+    return mainWindow
 }
 
 // ── IPC Handlers ──
@@ -932,23 +934,26 @@ app.whenReady().then(() => {
         {
             label: '显示窗口',
             click: () => {
-                const win = BrowserWindow.getAllWindows()[0]
-                if (win) { win.show(); win.focus() }
+                let win = BrowserWindow.getAllWindows()[0]
+                if (!win) { win = createWindow() }
+                win.show(); win.focus()
             }
         },
         {
             label: '刷新数据',
             click: () => {
-                const win = BrowserWindow.getAllWindows()[0]
-                if (win) { win.show(); win.focus(); win.webContents.send('tray-refresh') }
+                let win = BrowserWindow.getAllWindows()[0]
+                if (!win) { win = createWindow() }
+                win.show(); win.focus(); win.webContents.send('tray-refresh')
             }
         },
         { type: 'separator' },
         {
             label: '设置',
             click: () => {
-                const win = BrowserWindow.getAllWindows()[0]
-                if (win) { win.show(); win.focus(); win.webContents.send('tray-settings') }
+                let win = BrowserWindow.getAllWindows()[0]
+                if (!win) { win = createWindow() }
+                win.show(); win.focus(); win.webContents.send('tray-settings')
             }
         },
         { type: 'separator' },
@@ -965,8 +970,9 @@ app.whenReady().then(() => {
     tray.setContextMenu(contextMenu)
 
     tray.on('click', () => {
-        const win = BrowserWindow.getAllWindows()[0]
-        if (win) { win.show(); win.focus() }
+        let win = BrowserWindow.getAllWindows()[0]
+        if (!win) { win = createWindow() }
+        win.show(); win.focus()
     })
 
     // 设置应用用户模型ID
@@ -976,6 +982,9 @@ app.whenReady().then(() => {
     const initialConfig = loadConfig()
     app.setLoginItemSettings({ openAtLogin: !!initialConfig.auto_start })
 
+    // 开机自启时不打开主窗口，仅显示托盘图标
+    const openedAtLogin = app.getLoginItemSettings().wasOpenedAtLogin
+
     // 开发快捷键
     app.on('browser-window-created', (_, window) => {
         optimizer.watchWindowShortcuts(window)
@@ -984,7 +993,9 @@ app.whenReady().then(() => {
     // 设置 IPC handlers
     setupIpcHandlers()
 
-    createWindow()
+    if (!openedAtLogin) {
+        createWindow()
+    }
 
     app.on('activate', function () {
         if (BrowserWindow.getAllWindows().length === 0) createWindow()
