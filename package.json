@@ -1,6 +1,6 @@
 {
     "name": "deepseek-monitor",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "description": "DeepSeek API 用量及余额监测 Windows 桌面小工具",
     "main": "./out/main/index.js",
     "author": "LEI",
