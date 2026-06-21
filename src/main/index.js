@@ -804,6 +804,14 @@ function createWindow() {
         mainWindow.show()
     })
 
+    // 拦截关闭事件：点击关闭按钮时隐藏到系统托盘，而非退出程序
+    mainWindow.on('close', (event) => {
+        if (!app.isQuitting) {
+            event.preventDefault()
+            mainWindow.hide()
+        }
+    })
+
     // 窗口控制 IPC
     ipcMain.on('window-minimize', () => mainWindow.minimize())
     ipcMain.on('window-maximize', () => {
@@ -932,7 +940,7 @@ app.whenReady().then(() => {
             label: '刷新数据',
             click: () => {
                 const win = BrowserWindow.getAllWindows()[0]
-                if (win) win.webContents.send('tray-refresh')
+                if (win) { win.show(); win.focus(); win.webContents.send('tray-refresh') }
             }
         },
         { type: 'separator' },
@@ -940,13 +948,16 @@ app.whenReady().then(() => {
             label: '设置',
             click: () => {
                 const win = BrowserWindow.getAllWindows()[0]
-                if (win) win.webContents.send('tray-settings')
+                if (win) { win.show(); win.focus(); win.webContents.send('tray-settings') }
             }
         },
         { type: 'separator' },
         {
             label: '退出',
-            click: () => { app.quit() }
+            click: () => {
+                app.isQuitting = true
+                app.quit()
+            }
         }
     ])
 
