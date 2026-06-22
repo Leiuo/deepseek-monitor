@@ -21,32 +21,49 @@ Built with Electron + Vue 3, queries balance via API Key, and retrieves detailed
 ```
 deepseek-monitor-electron/
 ├── src/
-│   ├── main/           # Electron main process
-│   │   └── index.js    # Window management, IPC, DeepSeek API client
-│   ├── preload/        # Preload script (contextBridge)
-│   │   └── index.js    # Expose API / window controls / Electron API
-│   └── renderer/       # Vue renderer process
+│   ├── main/                 # Electron main process
+│   │   ├── index.js          # App entry, system tray
+│   │   ├── window.js         # Window creation & management
+│   │   ├── ipc.js            # IPC handler
+│   │   ├── api.js            # DeepSeek API client
+│   │   └── config.js         # Config file read/write
+│   ├── preload/              # Preload script (contextBridge)
+│   │   └── index.js          # Expose API / window controls / Electron API
+│   └── renderer/             # Vue renderer process
+│       ├── index.html        # HTML entry
 │       └── src/
-│           ├── views/       # Page views
+│           ├── main.js       # Vue app entry
+│           ├── App.vue       # Root component
+│           ├── assets/
+│           │   └── main.css  # Global styles
+│           ├── views/        # Page views
 │           │   ├── Dashboard.vue    # Dashboard overview
-│           │   ├── ModelDetail.vue   # Model usage details
-│           │   └── Settings.vue      # Settings page
-│           ├── components/ # Components
+│           │   ├── ModelDetail.vue  # Model usage details
+│           │   └── Settings.vue     # Settings page
+│           ├── components/   # Components
 │           │   ├── TopBar.vue        # Top title bar + window controls
 │           │   ├── SideBar.vue       # Side navigation
 │           │   ├── MetricCard.vue    # Metric card
 │           │   ├── UsageChart.vue    # Usage trend chart
 │           │   ├── CacheChart.vue    # Cache analysis chart
 │           │   └── ModelBreakdown.vue # Model breakdown
-│           ├── stores/    # State management
-│           │   └── api.js            # Reactive state + API calls
-│           ├── composables/          # Composable functions
-│           │   └── useTheme.js       # Theme switching
-│           └── router/               # Routing
+│           ├── stores/       # State management
+│           │   └── api.js    # Reactive state + API calls
+│           ├── composables/  # Composable functions
+│           │   └── useTheme.js  # Theme switching
+│           └── router/       # Routing
 │               └── index.js
-├── resources/         # App icons
-├── build/             # Build config
-├── electron-builder.yml  # Packaging config
+├── build/                    # Build config (icons, macOS entitlements)
+│   └── icon_source/          # Icon source files (SVG, conversion scripts)
+├── resources/                # App icons
+├── images/                   # Screenshots
+├── release-documents/        # Release notes
+├── electron.vite.config.mjs  # Vite config
+├── electron-builder.yml      # Packaging config
+├── eslint.config.mjs         # ESLint config
+├── .editorconfig             # Editor config
+├── .prettierrc.yaml          # Prettier config
+├── LICENSE
 └── package.json
 ```
 
