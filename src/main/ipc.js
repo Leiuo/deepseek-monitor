@@ -10,7 +10,7 @@ function setupIpcHandlers() {
 
     ipcMain.handle('save-config', (_event, config) => {
         saveConfig(config)
-        app.setLoginItemSettings({ openAtLogin: !!config.auto_start })
+        app.setLoginItemSettings({ openAtLogin: !!config.auto_start, args: ['--hidden'] })
     })
 
     // 验证 API Key

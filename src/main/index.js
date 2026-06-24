@@ -60,12 +60,12 @@ app.whenReady().then(() => {
     // 设置应用用户模型ID
     electronApp.setAppUserModelId('com.deepseek.monitor')
 
-    // 应用开机自启配置
+    // 应用开机自启配置（用 --hidden 参数标记开机自启，Windows 上 wasOpenedAtLogin 不可靠）
     const initialConfig = loadConfig()
-    app.setLoginItemSettings({ openAtLogin: !!initialConfig.auto_start })
+    app.setLoginItemSettings({ openAtLogin: !!initialConfig.auto_start, args: ['--hidden'] })
 
     // 开机自启时不打开主窗口，仅显示托盘图标
-    const openedAtLogin = app.getLoginItemSettings().wasOpenedAtLogin
+    const openedAtLogin = process.argv.includes('--hidden')
 
     // 开发快捷键
     app.on('browser-window-created', (_, window) => {
