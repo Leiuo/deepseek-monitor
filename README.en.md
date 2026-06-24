@@ -179,12 +179,3 @@ The following features have their UI and settings storage ready, but the backend
 | **Balance Alert** | Alert threshold is saved to config, but Windows system notification is not yet wired up **(Fixed)** |
 | **Auto Refresh Interval** | Refresh interval can be adjusted in settings (30s–10min), but the timer is currently hardcoded to 60 seconds **(Fixed)** |
 | **Auto-start on Boot** | Auto-start toggle is saved, but has not been registered with Windows login items yet **(Fixed)** |
-
-## Contributing
-
-Contributions via Issues or Pull Requests are welcome!
-
-1. Fork this repository
-2. Create a feature branch
-3. Commit your changes
-4. Open a Pull Request
