@@ -72,7 +72,7 @@
         <!-- Save Button -->
         <div style="display: flex; gap: 8px; margin-top: 32px;">
             <button class="btn btn-primary" @click="save">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linecap="round" stroke-linejoin="round">
                     <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
                     <polyline points="17 21 17 13 7 13 7 21" />
@@ -111,11 +111,13 @@
                     style="margin-bottom: 12px; padding: 12px; border-radius: var(--radius-sm); background: rgba(255,255,255,0.03); font-size: 12px; font-family: var(--font-mono); word-break: break-all; overflow-x: auto;">
                     <div><strong>端点:</strong> {{ item.endpoint }}</div>
                     <div><strong>状态码:</strong>
-                        <span :style="{ color: item.status === 200 ? 'var(--accent-green)' : 'var(--accent-red)' }">{{
-                            item.status }}</span>
+                        <span :style="{ color: item.status === 200 ? 'var(--accent-green)' : 'var(--accent-red)' }">
+                            {{ item.status }}
+                        </span>
                     </div>
-                    <div v-if="item.url" style="margin-top: 4px; font-size: 11px; color: var(--text-muted);">{{ item.url
-                        }}</div>
+                    <div v-if="item.url" style="margin-top: 4px; font-size: 11px; color: var(--text-muted);">
+                        {{ item.url }}
+                    </div>
                     <div v-if="item.preview" style="margin-top: 4px;">
                         <textarea readonly :value="item.preview"
                             style="width: 100%; min-height: 80px; resize: vertical; font-family: var(--font-mono); font-size: 11px; line-height: 1.5; background: rgba(0,0,0,0.3); color: var(--text-primary); border: 1px solid var(--border); border-radius: 4px; padding: 8px; white-space: pre; overflow-x: auto;"
